@@ -7,7 +7,6 @@ import {
   Post,
   Put,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { CreateServiceUseCase } from '@application/service/use-cases/create-service';
 import { CreateServiceDto } from '../dtos/create-service-dto';
@@ -25,10 +24,8 @@ import {
   RemoveServiceUseCase,
   RemoveServicesRequest,
 } from '@application/service/use-cases/remove-service';
-import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
@@ -36,9 +33,6 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { Roles } from '@application/auth/role/role.decorator';
-import { JwtGuard } from '@application/auth/guard/jwt.guard';
-import { RoleGuard } from '@application/auth/guard/role.guard';
 
 @Controller('service')
 @ApiTags('Service')
@@ -52,7 +46,6 @@ export class ServiceController {
   ) {}
 
   @Get()
-  @UseGuards(JwtGuard, RoleGuard)
   @ApiQuery({
     name: 'skip',
     type: Number,
