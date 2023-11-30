@@ -10,11 +10,8 @@ export abstract class ServicesRepository {
   abstract findAll(params: {
     skip?: number;
     take?: number;
-    description?: string;
-    title?: string;
-    cover?: string;
-    type?: string;
-    companyId?: number;
+    name?: string;
+    status?: string;
   }): Promise<IServicePropsResponse | null>;
   abstract findById(idService: number): Promise<Service | null>;
   abstract update(id: number, user: Service): Promise<void>;

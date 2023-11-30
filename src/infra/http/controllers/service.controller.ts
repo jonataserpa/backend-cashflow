@@ -59,32 +59,14 @@ export class ServiceController {
     required: false,
   })
   @ApiQuery({
-    name: 'description',
+    name: 'name',
     type: String,
     description: 'A parameter. Optional',
     required: false,
   })
   @ApiQuery({
-    name: 'title',
+    name: 'status',
     type: String,
-    description: 'A parameter. Optional',
-    required: false,
-  })
-  @ApiQuery({
-    name: 'cover',
-    type: String,
-    description: 'A parameter. Optional',
-    required: false,
-  })
-  @ApiQuery({
-    name: 'type',
-    type: String,
-    description: 'A parameter. Optional',
-    required: false,
-  })
-  @ApiQuery({
-    name: 'companyId',
-    type: Number,
     description: 'A parameter. Optional',
     required: false,
   })
@@ -98,21 +80,15 @@ export class ServiceController {
   async getAll(
     @Query('skip') skip: number,
     @Query('take') take: number,
-    @Query('description') description: string,
-    @Query('title') title: string,
-    @Query('cover') cover: string,
-    @Query('type') type: string,
-    @Query('companyId') companyId: number,
+    @Query('name') name: string,
+    @Query('status') status: string,
   ) {
     const params: GetAllServicesRequest = {
       params: {
         skip,
         take,
-        description,
-        title,
-        cover,
-        type,
-        companyId,
+        name,
+        status,
       },
     };
 
@@ -150,7 +126,7 @@ export class ServiceController {
     });
 
     return {
-      Service: ServiceViewModel.toHTTP(service),
+      service: ServiceViewModel.toHTTP(service),
     };
   }
 

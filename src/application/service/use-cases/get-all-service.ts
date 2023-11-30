@@ -8,11 +8,8 @@ export interface GetAllServicesRequest {
   params: {
     skip?: number;
     take?: number;
-    description?: string;
-    title?: string;
-    cover?: string;
-    type?: string;
-    companyId?: number;
+    name?: string;
+    status?: string;
   };
 }
 
@@ -24,16 +21,13 @@ export class GetAllServiceUseCase {
     request: GetAllServicesRequest,
   ): Promise<IServicePropsResponse> {
     const { params } = request;
-    const { skip, take, description, title, cover, type, companyId } = params;
+    const { skip, take, name, status } = params;
 
     const { data, headers } = await this.serviceRepository.findAll({
       skip,
       take,
-      description,
-      title,
-      cover,
-      type,
-      companyId,
+      name,
+      status,
     });
 
     return {

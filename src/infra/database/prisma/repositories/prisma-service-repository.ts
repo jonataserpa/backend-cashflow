@@ -22,45 +22,25 @@ export class PrismaServicesRepository implements ServicesRepository {
   async findAll(params: {
     skip?: number;
     take?: number;
-    description?: string;
-    title?: string;
-    cover?: string;
-    type?: string;
-    companyId?: number;
+    name?: string;
+    status?: string;
   }) {
-    const { skip, take, description, title, cover, type, companyId } = params;
+    const { skip, take, name, status } = params;
     let data;
 
     const options = {
-      description: {
-        contains: description,
+      name: {
+        contains: name,
       },
-      title: {
-        contains: title,
-      },
-      cover: {
-        contains: cover,
-      },
-      type: {
-        contains: type,
+      status: {
+        contains: status,
       },
     };
 
-    if (isNaN(skip) && isNaN(take) && isNaN(companyId)) {
+    if (isNaN(skip) && isNaN(take)) {
       data = await this.prisma.service.findMany({
         where: {
           ...options,
-          AND: {
-            deleteAt: null,
-          },
-        },
-        orderBy: {
-          id: 'desc',
-        },
-      });
-    } else if (isNaN(skip) && isNaN(take)) {
-      data = await this.prisma.service.findMany({
-        where: {
           AND: {
             deleteAt: null,
           },
