@@ -1,0 +1,211 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { CreateServiceUseCase } from '@application/service/use-cases/create-service';
+import { CreateServiceDto } from '../dtos/create-service-dto';
+import { ServiceViewModel } from '../view-models/service-view-model';
+import {
+  GetAllServiceUseCase,
+  GetAllServicesRequest,
+} from '@application/service/use-cases/get-all-service';
+import {
+  GetByIdServiceUseCase,
+  GetByIdServicesRequest,
+} from '@application/service/use-cases/get-by-id-service';
+import { UpdateServiceUseCase } from '@application/service/use-cases/update-service';
+import {
+  RemoveServiceUseCase,
+  RemoveServicesRequest,
+} from '@application/service/use-cases/remove-service';
+import { AuthGuard } from '@nestjs/passport';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiInternalServerErrorResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
+import { Roles } from '@application/auth/role/role.decorator';
+import { JwtGuard } from '@application/auth/guard/jwt.guard';
+import { RoleGuard } from '@application/auth/guard/role.guard';
+
+@Controller('service')
+@UseGuards(AuthGuard('jwt'))
+@ApiTags('Service')
+@ApiBearerAuth()
+export class ServiceController {
+  constructor(
+    private createServiceUseCase: CreateServiceUseCase,
+    private getAllServiceUseCase: GetAllServiceUseCase,
+    private getByIdServiceUseCase: GetByIdServiceUseCase,
+    private updateServiceUseCase: UpdateServiceUseCase,
+    private removeServiceUseCase: RemoveServiceUseCase,
+  ) {}
+
+  @Get()
+  @Roles(['admin', 'paid-annoucement'])
+  @UseGuards(JwtGuard, RoleGuard)
+  @ApiQuery({
+    name: 'skip',
+    type: Number,
+    description: 'A parameter. Optional',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'take',
+    type: Number,
+    description: 'A parameter. Optional',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'description',
+    type: String,
+    description: 'A parameter. Optional',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'title',
+    type: String,
+    description: 'A parameter. Optional',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'cover',
+    type: String,
+    description: 'A parameter. Optional',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'type',
+    type: String,
+    description: 'A parameter. Optional',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'companyId',
+    type: Number,
+    description: 'A parameter. Optional',
+    required: false,
+  })
+  @ApiOperation({ summary: 'List Service' })
+  @ApiOkResponse({
+    description: 'List of Services',
+    type: CreateServiceDto,
+  })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  async getAll(
+    @Query('skip') skip: number,
+    @Query('take') take: number,
+    @Query('description') description: string,
+    @Query('title') title: string,
+    @Query('cover') cover: string,
+    @Query('type') type: string,
+    @Query('companyId') companyId: number,
+  ) {
+    const params: GetAllServicesRequest = {
+      params: {
+        skip,
+        take,
+        description,
+        title,
+        cover,
+        type,
+        companyId,
+      },
+    };
+
+    return this.getAllServiceUseCase.execute(params);
+  }
+
+  @Get('/:idService')
+  @Roles(['admin', 'paid-annoucement'])
+  @UseGuards(JwtGuard, RoleGuard)
+  @ApiOperation({ summary: 'Get an Service' })
+  @ApiOkResponse({ description: 'Get Service', type: CreateServiceDto })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  async getByIdService(@Param('idService') idService: number) {
+    const params: GetByIdServicesRequest = {
+      idService,
+    };
+    const Service = await this.getByIdServiceUseCase.execute(params);
+    return {
+      Service: ServiceViewModel.toHTTP(Service),
+    };
+  }
+
+  @Post()
+  @Roles(['admin', 'paid-annoucement'])
+  @UseGuards(JwtGuard, RoleGuard)
+  @ApiCreatedResponse({
+    description: 'Service created',
+    type: CreateServiceDto,
+  })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  async create(@Body() body: CreateServiceDto) {
+    const { name, status } = body;
+
+    const { service } = await this.createServiceUseCase.execute({
+      name,
+      status,
+    });
+
+    return {
+      Service: ServiceViewModel.toHTTP(service),
+    };
+  }
+
+  @Put(':id')
+  @Roles(['admin', 'paid-annoucement'])
+  @UseGuards(JwtGuard, RoleGuard)
+  @ApiOperation({ summary: 'Edit an Service' })
+  @ApiOkResponse({
+    description: 'Service updated successfully',
+    type: CreateServiceDto,
+  })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  async update(@Param('id') id: number, @Body() body: CreateServiceDto) {
+    const { name, status } = body;
+
+    const { service } = await this.updateServiceUseCase.execute({
+      id,
+      name,
+      status,
+    });
+
+    return {
+      service: ServiceViewModel.toHTTP(service),
+    };
+  }
+
+  @Delete(':id')
+  @Roles(['admin', 'paid-annoucement'])
+  @UseGuards(JwtGuard, RoleGuard)
+  @ApiOperation({ summary: 'Delete an Service' })
+  @ApiOkResponse({
+    description: 'Service deleted successfully',
+    type: CreateServiceDto,
+  })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  async remove(@Param('id') id: number) {
+    const params: RemoveServicesRequest = {
+      id,
+    };
+    return await this.removeServiceUseCase.execute(params);
+  }
+}

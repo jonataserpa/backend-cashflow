@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Service {
+  id        Int       @id @default(autoincrement())
+  name      String
+  status    String
+  createdAt DateTime  @default(now())
+  updateAt  DateTime  @updatedAt
+  deleteAt  DateTime?
+
+  @@index([name])
+  @@map("services")
+}
+
+model Company {
+  id               Int            @id @default(autoincrement())
+  status           CompanyStatus  @default(ACTIVE)
+  name             String
+  socialReason     String?
+  url              String?
+  cnpj             String?
+  email            String?        @unique
+  phone            String?
+  cellphone        String?
+  responsible      String?
+  emailResponsible String?
+  followup         String?
+  createAt         DateTime       @default(now())
+  updateAt         DateTime       @updatedAt
+  deleteAt         DateTime?
+  Categories       Categories[]
+  Notification     Notification[]
+  user             User[]
+
+  @@index([name])
+  @@map("companys")
+}
+
+model Notification {
+  id          String    @id
+  recipientId String
+  content     String
+  category    String
+  readAt      DateTime?
+  companyId   Int
+  canceledAt  DateTime?
+  createdAt   DateTime  @default(now())
+  company     Company   @relation(fields: [companyId], references: [id])
+
+  @@index([recipientId])
+  @@index([companyId], map: "notifications_companyId_fkey")
+  @@map("notifications")
+}
+
+model Attachment {
+  id             Int       @id @default(autoincrement())
+  announcementId Int
+  image          String
+  isDefault      Int
+  position       String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime?
+
+  @@index([announcementId])
+  @@map("attachments")
+}
+
+model Categories {
+  id          Int       @id @default(autoincrement())
+  title       String
+  uri         String?
+  description String
+  cover       String?
+  type        String?
+  companyId   Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  company     Company   @relation(fields: [companyId], references: [id])
+
+  @@index([title])
+  @@index([companyId], map: "categories_companyId_fkey")
+  @@map("categories")
+}
+
+model Address {
+  id         Int       @id @default(autoincrement())
+  address    String
+  number     String?
+  complement String?
+  district   String?
+  city       String?
+  state      String?
+  country    String?
+  zipcode    String?
+  userId     Int
+  createAt   DateTime  @default(now())
+  deleteAt   DateTime?
+  updateAt   DateTime  @updatedAt
+  user       User      @relation(fields: [userId], references: [id])
+
+  @@index([address])
+  @@index([userId], map: "address_userId_fkey")
+  @@map("address")
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  firstName    String
+  lastName     String?
+  phone        String?
+  email        String    @unique
+  genre        String?
+  dateBorn     DateTime
+  documentType String?
+  document     String    @unique
+  photo        String?
+  business     String?
+  password     String?
+  companyId    Int
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+  role         String?
+  image        String?
+  refreshToken String?
+  address      Address[]
+  company      Company   @relation(fields: [companyId], references: [id])
+
+  @@index([companyId], map: "users_companyId_fkey")
+  @@map("users")
+}
+
+enum CompanyStatus {
+  ACTIVE
+  INACTIVE
+}
