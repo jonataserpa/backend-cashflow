@@ -1,6 +1,6 @@
 ## Description
 
-Project Easy food API create with Node.js:
+Project The way school API create with Node.js:
 - Framework: Nest.js,
 - ORM: Prisma
 - Bd: Mysql
