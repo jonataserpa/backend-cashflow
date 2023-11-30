@@ -41,9 +41,7 @@ import { JwtGuard } from '@application/auth/guard/jwt.guard';
 import { RoleGuard } from '@application/auth/guard/role.guard';
 
 @Controller('service')
-@UseGuards(AuthGuard('jwt'))
 @ApiTags('Service')
-@ApiBearerAuth()
 export class ServiceController {
   constructor(
     private createServiceUseCase: CreateServiceUseCase,
@@ -54,7 +52,6 @@ export class ServiceController {
   ) {}
 
   @Get()
-  @Roles(['admin', 'paid-annoucement'])
   @UseGuards(JwtGuard, RoleGuard)
   @ApiQuery({
     name: 'skip',
@@ -130,8 +127,6 @@ export class ServiceController {
   }
 
   @Get('/:idService')
-  @Roles(['admin', 'paid-annoucement'])
-  @UseGuards(JwtGuard, RoleGuard)
   @ApiOperation({ summary: 'Get an Service' })
   @ApiOkResponse({ description: 'Get Service', type: CreateServiceDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -147,8 +142,6 @@ export class ServiceController {
   }
 
   @Post()
-  @Roles(['admin', 'paid-annoucement'])
-  @UseGuards(JwtGuard, RoleGuard)
   @ApiCreatedResponse({
     description: 'Service created',
     type: CreateServiceDto,
@@ -169,8 +162,6 @@ export class ServiceController {
   }
 
   @Put(':id')
-  @Roles(['admin', 'paid-annoucement'])
-  @UseGuards(JwtGuard, RoleGuard)
   @ApiOperation({ summary: 'Edit an Service' })
   @ApiOkResponse({
     description: 'Service updated successfully',
@@ -193,8 +184,6 @@ export class ServiceController {
   }
 
   @Delete(':id')
-  @Roles(['admin', 'paid-annoucement'])
-  @UseGuards(JwtGuard, RoleGuard)
   @ApiOperation({ summary: 'Delete an Service' })
   @ApiOkResponse({
     description: 'Service deleted successfully',
