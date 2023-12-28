@@ -38,9 +38,12 @@ import { GetAllServiceUseCase } from '@application/service/use-cases/get-all-ser
 import { GetByIdServiceUseCase } from '@application/service/use-cases/get-by-id-service';
 import { UpdateServiceUseCase } from '@application/service/use-cases/update-service';
 import { RemoveServiceUseCase } from '@application/service/use-cases/remove-service';
+import { ChatController } from './controllers/chat.controller';
+import { SendChatUseCase } from '@application/chat/use-cases/send-chat';
+import { OpenAiModule } from '@infra/open-ai/open-ai.module';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, OpenAiModule],
   controllers: [
     CompanyController,
     UserController,
@@ -49,6 +52,7 @@ import { RemoveServiceUseCase } from '@application/service/use-cases/remove-serv
     UploadController,
     BusinessController,
     ServiceController,
+    ChatController,
   ],
   providers: [
     SendNotification,
@@ -81,6 +85,7 @@ import { RemoveServiceUseCase } from '@application/service/use-cases/remove-serv
     GetByIdServiceUseCase,
     UpdateServiceUseCase,
     RemoveServiceUseCase,
+    SendChatUseCase,
   ],
 })
 export class HttpModule {}

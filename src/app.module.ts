@@ -6,6 +6,7 @@ import { HttpModule } from './infra/http/http.module';
 import { AuthModule } from '@application/auth/auth.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { GoogleMapsModule } from '@infra/google-maps/google-maps.module';
+import { OpenAiModule } from '@infra/open-ai/open-ai.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { GoogleMapsModule } from '@infra/google-maps/google-maps.module';
     GoogleMapsModule,
     AuthModule,
     DatabaseModule,
+    OpenAiModule,
     ConfigModule.forRoot({ isGlobal: true }),
     MulterModule.registerAsync({
       useFactory: () => ({

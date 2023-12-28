@@ -8,6 +8,16 @@ datasource db {
   relationMode = "prisma"
 }
 
+model Chat {
+  id        Int       @id @default(autoincrement())
+  message   String
+  createdAt DateTime  @default(now())
+  deleteAt  DateTime?
+
+  @@index([message])
+  @@map("chat")
+}
+
 model Service {
   id        Int       @id @default(autoincrement())
   name      String

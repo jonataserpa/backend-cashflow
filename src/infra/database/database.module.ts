@@ -17,15 +17,21 @@ import { JwtService } from '@nestjs/jwt';
 import { GoogleMapsModule } from '@infra/google-maps/google-maps.module';
 import { ServicesRepository } from '@application/service/repositories/service.respository';
 import { PrismaServicesRepository } from './prisma/repositories/prisma-service-repository';
+import { OpenAiModule } from '@infra/open-ai/open-ai.module';
+import { ChatRepository } from '@application/chat/repositories/chat-repository';
+import { PrismaChatRepository } from './prisma/repositories/prisma-chat-repository';
+import { OpenAiService } from '@infra/open-ai/open-ai.service';
 
 @Module({
   imports: [
     HttpModule,
     ConfigModule.forRoot({ isGlobal: true }),
     GoogleMapsModule,
+    OpenAiModule,
   ],
   providers: [
     PrismaService,
+    OpenAiService,
     {
       provide: NotificationsRepository,
       useClass: PrismaNotificationsRepository,
@@ -50,6 +56,10 @@ import { PrismaServicesRepository } from './prisma/repositories/prisma-service-r
       provide: ServicesRepository,
       useClass: PrismaServicesRepository,
     },
+    {
+      provide: ChatRepository,
+      useClass: PrismaChatRepository,
+    },
     JwtService,
   ],
   exports: [
@@ -59,6 +69,7 @@ import { PrismaServicesRepository } from './prisma/repositories/prisma-service-r
     CategoriesRepository,
     UploadRepository,
     ServicesRepository,
+    ChatRepository,
   ],
 })
 export class DatabaseModule {}
