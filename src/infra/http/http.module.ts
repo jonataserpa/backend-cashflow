@@ -43,6 +43,7 @@ import { SendChatUseCase } from '@application/chat/use-cases/send-chat';
 import { OpenAiModule } from '@infra/open-ai/open-ai.module';
 import { VideoController } from './controllers/video.controller';
 import { SendVideoUseCase } from '@application/video/use-cases/send-video';
+import { GetAllChatUseCase } from '@application/chat/use-cases/get-all-chat';
 
 @Module({
   imports: [DatabaseModule, OpenAiModule],
@@ -90,6 +91,7 @@ import { SendVideoUseCase } from '@application/video/use-cases/send-video';
     RemoveServiceUseCase,
     SendChatUseCase,
     SendVideoUseCase,
+    GetAllChatUseCase,
   ],
 })
 export class HttpModule {}
