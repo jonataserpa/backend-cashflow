@@ -1,14 +1,14 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { OpenAiCompletionService } from './services/completion-ai.service';
 import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from 'openai';
+import { OpenAiCompletionResponse } from './models/open.ai.completion.response';
 
 @Injectable()
 export class OpenAiService {
   private readonly client: OpenAIApi;
   public completionService: any;
 
-  constructor(private readonly configService: ConfigService) {
+  constructor() {
     const configuration = new Configuration({
       apiKey: process.env.OPENAI_API_KEY,
     });
@@ -17,11 +17,12 @@ export class OpenAiService {
     this.completionService = new OpenAiCompletionService(this.client);
   }
 
-  async completion(messages: ChatCompletionRequestMessage[]): Promise<any> {
+  async completion(
+    messages: ChatCompletionRequestMessage[],
+  ): Promise<OpenAiCompletionResponse> {
     try {
-      const test = await this.completionService.textCompletion(messages);
-      console.log(test);
-      return test;
+      const chat = await this.completionService.textCompletion(messages);
+      return chat;
     } catch (e) {
       throw new InternalServerErrorException(
         'Was not possible to generate the answers',

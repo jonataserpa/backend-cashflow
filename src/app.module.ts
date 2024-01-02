@@ -7,6 +7,7 @@ import { AuthModule } from '@application/auth/auth.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { GoogleMapsModule } from '@infra/google-maps/google-maps.module';
 import { OpenAiModule } from '@infra/open-ai/open-ai.module';
+import { ReplicateModule } from '@infra/replicate-ai/replicate.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { OpenAiModule } from '@infra/open-ai/open-ai.module';
     AuthModule,
     DatabaseModule,
     OpenAiModule,
+    ReplicateModule,
     ConfigModule.forRoot({ isGlobal: true }),
     MulterModule.registerAsync({
       useFactory: () => ({

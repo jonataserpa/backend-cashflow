@@ -21,6 +21,10 @@ import { OpenAiModule } from '@infra/open-ai/open-ai.module';
 import { ChatRepository } from '@application/chat/repositories/chat-repository';
 import { PrismaChatRepository } from './prisma/repositories/prisma-chat-repository';
 import { OpenAiService } from '@infra/open-ai/open-ai.service';
+import { ReplicateModule } from '@infra/replicate-ai/replicate.module';
+import { ReplicateService } from '@infra/replicate-ai/replicate.service';
+import { VideoRepository } from '@application/video/repositories/video-repository';
+import { PrismaVideoRepository } from './prisma/repositories/prisma-video-repository';
 
 @Module({
   imports: [
@@ -28,10 +32,12 @@ import { OpenAiService } from '@infra/open-ai/open-ai.service';
     ConfigModule.forRoot({ isGlobal: true }),
     GoogleMapsModule,
     OpenAiModule,
+    ReplicateModule,
   ],
   providers: [
     PrismaService,
     OpenAiService,
+    ReplicateService,
     {
       provide: NotificationsRepository,
       useClass: PrismaNotificationsRepository,
@@ -60,6 +66,10 @@ import { OpenAiService } from '@infra/open-ai/open-ai.service';
       provide: ChatRepository,
       useClass: PrismaChatRepository,
     },
+    {
+      provide: VideoRepository,
+      useClass: PrismaVideoRepository,
+    },
     JwtService,
   ],
   exports: [
@@ -70,6 +80,7 @@ import { OpenAiService } from '@infra/open-ai/open-ai.service';
     UploadRepository,
     ServicesRepository,
     ChatRepository,
+    VideoRepository,
   ],
 })
 export class DatabaseModule {}

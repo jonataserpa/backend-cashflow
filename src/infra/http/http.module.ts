@@ -41,6 +41,8 @@ import { RemoveServiceUseCase } from '@application/service/use-cases/remove-serv
 import { ChatController } from './controllers/chat.controller';
 import { SendChatUseCase } from '@application/chat/use-cases/send-chat';
 import { OpenAiModule } from '@infra/open-ai/open-ai.module';
+import { VideoController } from './controllers/video.controller';
+import { SendVideoUseCase } from '@application/video/use-cases/send-video';
 
 @Module({
   imports: [DatabaseModule, OpenAiModule],
@@ -53,6 +55,7 @@ import { OpenAiModule } from '@infra/open-ai/open-ai.module';
     BusinessController,
     ServiceController,
     ChatController,
+    VideoController,
   ],
   providers: [
     SendNotification,
@@ -86,6 +89,7 @@ import { OpenAiModule } from '@infra/open-ai/open-ai.module';
     UpdateServiceUseCase,
     RemoveServiceUseCase,
     SendChatUseCase,
+    SendVideoUseCase,
   ],
 })
 export class HttpModule {}

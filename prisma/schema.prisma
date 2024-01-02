@@ -11,6 +11,8 @@ datasource db {
 model Chat {
   id        Int       @id @default(autoincrement())
   message   String
+  response  String    @db.Text
+  type      Int
   createdAt DateTime  @default(now())
   deleteAt  DateTime?
 

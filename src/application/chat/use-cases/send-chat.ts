@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Chat } from '../entities/chat';
 import { ChatRepository } from '../repositories/chat-repository';
+import { OpenAiCompletionResponse } from '@infra/open-ai/models/open.ai.completion.response';
 
 interface SendChatRequest {
   message: string;
 }
 
 interface SendChatResponse {
-  msg: string;
+  msg: OpenAiCompletionResponse;
 }
 
 @Injectable()

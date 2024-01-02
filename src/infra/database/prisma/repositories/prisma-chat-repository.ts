@@ -4,12 +4,13 @@ import { PrismaService } from '../prisma.service';
 import { ChatRepository } from '@application/chat/repositories/chat-repository';
 import { OpenAiService } from '@infra/open-ai/open-ai.service';
 import { ChatCompletionRequestMessage } from 'openai';
+import { OpenAiCompletionResponse } from '@infra/open-ai/models/open.ai.completion.response';
 
 @Injectable()
 export class PrismaChatRepository implements ChatRepository {
   constructor(private prisma: PrismaService, private openai: OpenAiService) {}
 
-  async create(chat: Chat): Promise<string> {
+  async create(chat: Chat): Promise<OpenAiCompletionResponse> {
     const messages: ChatCompletionRequestMessage[] = [
       {
         role: 'user',
@@ -19,10 +20,11 @@ export class PrismaChatRepository implements ChatRepository {
 
     const result = await this.openai.completion(messages);
 
-    this.prisma.chat.create({
+    await this.prisma.chat.create({
       data: {
-        ...chat,
         message: chat.message,
+        response: result.message.content,
+        type: 1,
       },
     });
 
