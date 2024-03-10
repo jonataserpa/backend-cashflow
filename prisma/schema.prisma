@@ -91,7 +91,7 @@ model CashFlow {
   id          Int        @id @default(autoincrement())
   description String
   observation String
-  value       Float
+  value       String
   type        TypeStatus @default(ENTRY)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt

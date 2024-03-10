@@ -37,14 +37,13 @@ import {
   RemoveCashFlowUseCase,
   RemoveCashFlowsRequest,
 } from '@application/cash-flow/use-cases/remove-cash-flow';
-import { Roles } from '@application/auth/role/role.decorator';
 import { JwtGuard } from '@application/auth/guard/jwt.guard';
 import { RoleGuard } from '@application/auth/guard/role.guard';
 
 @Controller('cash-flow')
-@UseGuards(AuthGuard('jwt'))
+//@UseGuards(AuthGuard('jwt'))
 @ApiTags('cash-flow')
-@ApiBearerAuth()
+//@ApiBearerAuth()
 export class CashFlowController {
   constructor(
     private createCashFlowUseCase: CreateCashFlowUseCase,
@@ -55,8 +54,7 @@ export class CashFlowController {
   ) {}
 
   @Get()
-  @Roles(['admin', 'paid-annoucement'])
-  @UseGuards(JwtGuard, RoleGuard)
+  //@UseGuards(JwtGuard, RoleGuard)
   @ApiQuery({
     name: 'skip',
     type: Number,
@@ -98,9 +96,8 @@ export class CashFlowController {
     return this.getAllCashFlowUseCase.execute(params);
   }
 
+  //@UseGuards(JwtGuard, RoleGuard)
   @Get('/:idCashFlow')
-  @Roles(['admin', 'paid-annoucement'])
-  @UseGuards(JwtGuard, RoleGuard)
   @ApiOperation({ summary: 'Get an CashFlow' })
   @ApiOkResponse({ description: 'Get CashFlow', type: CreateCashFlowDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -115,6 +112,7 @@ export class CashFlowController {
     };
   }
 
+  //@UseGuards(JwtGuard, RoleGuard)
   @ApiOperation({ summary: 'CashFlow register' })
   @ApiCreatedResponse({
     description: 'CashFlow created',
@@ -124,8 +122,6 @@ export class CashFlowController {
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @ApiBody({ type: CreateCashFlowDto })
   @Post()
-  @Roles(['admin', 'paid-annoucement'])
-  @UseGuards(JwtGuard, RoleGuard)
   async create(@Body() body: CreateCashFlowDto) {
     const { description, observation, type, companyId, value } = body;
 
@@ -143,8 +139,7 @@ export class CashFlowController {
   }
 
   @Put(':id')
-  @Roles(['admin', 'paid-annoucement'])
-  @UseGuards(JwtGuard, RoleGuard)
+  //@UseGuards(JwtGuard, RoleGuard)
   @ApiOperation({ summary: 'Edit an CashFlow' })
   @ApiOkResponse({
     description: 'CashFlow updated successfully',
@@ -170,8 +165,8 @@ export class CashFlowController {
   }
 
   @Delete(':id')
-  @Roles(['admin', 'paid-annoucement'])
-  @UseGuards(JwtGuard, RoleGuard)
+  //@Roles(['admin', 'user'])
+  //@UseGuards(JwtGuard, RoleGuard)
   @ApiOperation({ summary: 'Delete an CashFlow' })
   @ApiOkResponse({
     description: 'User deleted successfully',

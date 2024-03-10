@@ -49,11 +49,11 @@ export class CashFlow {
     return this.props.companyId;
   }
 
-  public set value(value: number) {
+  public set value(value: string) {
     this.props.value = value;
   }
 
-  public get value(): number {
+  public get value(): string {
     return this.props.value;
   }
 }

@@ -38,7 +38,7 @@ export class CreateCashFlowDto {
     description: 'value ',
     example: '100.00',
   })
-  @IsInt()
+  @IsString()
   @IsNotEmpty()
-  value: number;
+  value: string;
 }

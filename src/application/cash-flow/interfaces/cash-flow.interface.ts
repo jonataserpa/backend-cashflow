@@ -4,5 +4,5 @@ export interface ICashFlowProps {
   observation: string;
   type: string;
   companyId: number;
-  value: number;
+  value: string;
 }
