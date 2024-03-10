@@ -45,7 +45,7 @@ export class CreateCashFlowDto {
 
   @ApiProperty({
     description: 'paymentedAt ',
-    example: 'date paymentedAt',
+    example: '2024-03-10T17:15:43.511Z',
   })
   @IsDate()
   @Type(() => Date)

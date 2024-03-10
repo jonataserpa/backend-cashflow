@@ -68,7 +68,31 @@ export class CashFlowController {
     required: false,
   })
   @ApiQuery({
-    name: 'filter',
+    name: 'description',
+    type: String,
+    description: 'A parameter. Optional',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'observation',
+    type: String,
+    description: 'A parameter. Optional',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'paymentedAt',
+    type: String,
+    description: 'A parameter. Optional',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'type',
+    type: String,
+    description: 'A parameter. Optional',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'createdAt',
     type: String,
     description: 'A parameter. Optional',
     required: false,
@@ -83,13 +107,21 @@ export class CashFlowController {
   async getAll(
     @Query('skip') skip?: number,
     @Query('take') take?: number,
-    @Query('filter') filter?: string,
+    @Query('description') description?: string,
+    @Query('observation') observation?: string,
+    @Query('type') type?: string,
+    @Query('paymentedAt') paymentedAt?: string,
+    @Query('createdAt') createdAt?: string,
   ) {
     const params: GetAllCashFlowsRequest = {
       params: {
         skip,
         take,
-        filter,
+        description,
+        observation,
+        type,
+        paymentedAt,
+        createdAt,
       },
     };
 

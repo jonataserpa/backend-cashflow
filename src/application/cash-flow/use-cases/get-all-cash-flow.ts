@@ -8,7 +8,11 @@ export interface GetAllCashFlowsRequest {
   params: {
     skip?: number;
     take?: number;
-    filter?: string;
+    description?: string;
+    observation?: string;
+    type?: string;
+    paymentedAt?: string;
+    createdAt?: string;
   };
 }
 
@@ -20,12 +24,24 @@ export class GetAllCashFlowUseCase {
     request: GetAllCashFlowsRequest,
   ): Promise<ICashFlowPropsResponse> {
     const { params } = request;
-    const { skip, take, filter } = params;
+    const {
+      skip,
+      take,
+      description,
+      observation,
+      type,
+      paymentedAt,
+      createdAt,
+    } = params;
 
     const { data, headers } = await this.cashFlowsRepository.findAll({
       skip,
       take,
-      filter,
+      description,
+      observation,
+      type,
+      paymentedAt,
+      createdAt,
     });
 
     return {

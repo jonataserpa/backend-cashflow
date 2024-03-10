@@ -6,6 +6,7 @@ import {
 } from '@application/cash-flow/repositories/cash-flow.respository';
 import { CashFlow } from '@application/cash-flow/entities/cash-flow';
 import { Injectable } from '@nestjs/common';
+import { TypeStatus } from '@prisma/client';
 
 @Injectable()
 export class PrismaCashFlowsRepository implements CashFlowsRepository {
@@ -29,17 +30,52 @@ export class PrismaCashFlowsRepository implements CashFlowsRepository {
   async findAll(params: {
     skip?: number;
     take?: number;
-    filter?: string;
+    description?: string;
+    observation?: string;
+    type?: string;
+    paymentedAt?: string;
+    createdAt?: string;
     cashFlowId?: number;
   }) {
-    const { skip, take, filter, cashFlowId: id } = params;
+    const {
+      skip,
+      take,
+      description,
+      observation,
+      type,
+      paymentedAt,
+      createdAt,
+      cashFlowId: id,
+    } = params;
     let data;
+    console.log('paymentedAt:: ', paymentedAt);
+
+    const options = {
+      description: {
+        contains: description,
+      },
+      observation: {
+        contains: observation,
+      },
+      type: {
+        in: type as TypeStatus,
+      },
+      paymentedAt: {
+        gte: paymentedAt ? new Date(paymentedAt) : undefined,
+        lte: paymentedAt ? new Date(paymentedAt) : undefined,
+      },
+      createdAt: {
+        gte: paymentedAt ? new Date(createdAt) : undefined,
+        lte: paymentedAt ? new Date(createdAt) : undefined,
+      },
+    };
 
     if (isNaN(skip)) {
       data = await this.prisma.cashFlow.findMany({
         where: {
+          ...options,
+          id,
           AND: {
-            id,
             deletedAt: null,
           },
         },
@@ -52,9 +88,7 @@ export class PrismaCashFlowsRepository implements CashFlowsRepository {
         skip,
         take,
         where: {
-          description: {
-            contains: filter,
-          },
+          ...options,
           AND: {
             id,
             deletedAt: null,

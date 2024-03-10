@@ -10,7 +10,11 @@ export abstract class CashFlowsRepository {
   abstract findAll(params: {
     skip?: number;
     take?: number;
-    filter?: string;
+    description?: string;
+    observation?: string;
+    type?: string;
+    paymentedAt?: string;
+    createdAt?: string;
     CashFlowId?: number;
   }): Promise<ICashFlowPropsResponse | null>;
   abstract findById(cashFlow: number): Promise<CashFlow | null>;
