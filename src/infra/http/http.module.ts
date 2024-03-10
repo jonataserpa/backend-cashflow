@@ -44,6 +44,12 @@ import { OpenAiModule } from '@infra/open-ai/open-ai.module';
 import { VideoController } from './controllers/video.controller';
 import { SendVideoUseCase } from '@application/video/use-cases/send-video';
 import { GetAllChatUseCase } from '@application/chat/use-cases/get-all-chat';
+import { CashFlowController } from './controllers/cash-flow.controller';
+import { CreateCashFlowUseCase } from '@application/cash-flow/use-cases/create-cash-flow';
+import { GetAllCashFlowUseCase } from '@application/cash-flow/use-cases/get-all-cash-flow';
+import { GetByIdCashFlowUseCase } from '@application/cash-flow/use-cases/get-by-id-cash-flow';
+import { UpdateCashFlowUseCase } from '@application/cash-flow/use-cases/update-cash-flow';
+import { RemoveCashFlowUseCase } from '@application/cash-flow/use-cases/remove-cash-flow';
 
 @Module({
   imports: [DatabaseModule, OpenAiModule],
@@ -57,6 +63,7 @@ import { GetAllChatUseCase } from '@application/chat/use-cases/get-all-chat';
     ServiceController,
     ChatController,
     VideoController,
+    CashFlowController,
   ],
   providers: [
     SendNotification,
@@ -92,6 +99,11 @@ import { GetAllChatUseCase } from '@application/chat/use-cases/get-all-chat';
     SendChatUseCase,
     SendVideoUseCase,
     GetAllChatUseCase,
+    CreateCashFlowUseCase,
+    GetAllCashFlowUseCase,
+    GetByIdCashFlowUseCase,
+    UpdateCashFlowUseCase,
+    RemoveCashFlowUseCase,
   ],
 })
 export class HttpModule {}

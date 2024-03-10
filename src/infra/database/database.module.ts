@@ -25,6 +25,8 @@ import { ReplicateModule } from '@infra/replicate-ai/replicate.module';
 import { ReplicateService } from '@infra/replicate-ai/replicate.service';
 import { VideoRepository } from '@application/video/repositories/video-repository';
 import { PrismaVideoRepository } from './prisma/repositories/prisma-video-repository';
+import { CashFlowsRepository } from '@application/cash-flow/repositories/cash-flow.respository';
+import { PrismaCashFlowsRepository } from './prisma/repositories/prisma-cash-flow-repository';
 
 @Module({
   imports: [
@@ -70,6 +72,10 @@ import { PrismaVideoRepository } from './prisma/repositories/prisma-video-reposi
       provide: VideoRepository,
       useClass: PrismaVideoRepository,
     },
+    {
+      provide: CashFlowsRepository,
+      useClass: PrismaCashFlowsRepository,
+    },
     JwtService,
   ],
   exports: [
@@ -81,6 +87,7 @@ import { PrismaVideoRepository } from './prisma/repositories/prisma-video-reposi
     ServicesRepository,
     ChatRepository,
     VideoRepository,
+    CashFlowsRepository,
   ],
 })
 export class DatabaseModule {}
