@@ -19,6 +19,8 @@ export class PrismaCashFlowsRepository implements CashFlowsRepository {
         description: raw.description,
         observation: raw.observation,
         type: raw.type,
+        companyId: raw.companyId,
+        value: raw.value,
       },
     });
   }
@@ -27,9 +29,9 @@ export class PrismaCashFlowsRepository implements CashFlowsRepository {
     skip?: number;
     take?: number;
     filter?: string;
-    CashFlowId?: number;
+    cashFlowId?: number;
   }) {
-    const { skip, take, filter, CashFlowId: id } = params;
+    const { skip, take, filter, cashFlowId: id } = params;
     let data;
 
     if (isNaN(skip)) {
@@ -65,7 +67,7 @@ export class PrismaCashFlowsRepository implements CashFlowsRepository {
 
     const dataCashFlows: ICashFlowPropsResponse = {
       data,
-      headers: data.length === 1 ? 1 : data.length - 1,
+      headers: data.length === 1 ? 1 : data.length,
     };
     return dataCashFlows;
   }

@@ -40,4 +40,20 @@ export class CashFlow {
   public get type(): string {
     return this.props.type;
   }
+
+  public set companyId(companyId: number) {
+    this.props.companyId = companyId;
+  }
+
+  public get companyId(): number {
+    return this.props.companyId;
+  }
+
+  public set value(value: number) {
+    this.props.value = value;
+  }
+
+  public get value(): number {
+    return this.props.value;
+  }
 }

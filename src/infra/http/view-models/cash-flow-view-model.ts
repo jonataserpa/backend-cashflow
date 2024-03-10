@@ -8,6 +8,7 @@ export class CashFlowViewModel {
       type: cashFlow.type as TypeStatus,
       observation: cashFlow.observation,
       description: cashFlow.description,
+      value: cashFlow.value,
     };
   }
 }

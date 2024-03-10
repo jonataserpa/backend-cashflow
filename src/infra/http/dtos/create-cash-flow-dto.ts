@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { TypeStatus } from '@prisma/client';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateCashFlowDto {
   @ApiProperty({
@@ -12,7 +12,7 @@ export class CreateCashFlowDto {
 
   @ApiProperty({
     description: 'description default',
-    example: 'Deer',
+    example: 'Energy',
   })
   @IsString()
   @IsNotEmpty()
@@ -20,9 +20,25 @@ export class CreateCashFlowDto {
 
   @ApiProperty({
     description: 'observation default',
-    example: 'observation',
+    example: 'test',
   })
   @IsString()
   @IsNotEmpty()
   observation: string;
+
+  @ApiProperty({
+    description: 'companyId',
+    example: '1',
+  })
+  @IsInt()
+  @IsNotEmpty()
+  companyId: number;
+
+  @ApiProperty({
+    description: 'value ',
+    example: '100.00',
+  })
+  @IsInt()
+  @IsNotEmpty()
+  value: number;
 }

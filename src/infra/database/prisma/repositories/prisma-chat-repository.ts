@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Chat } from '@application/chat/entities/chat';
 import { PrismaService } from '../prisma.service';
-import {
-  ChatRepository,
-  IChatPropsResponse,
-} from '@application/chat/repositories/chat-repository';
+import { ChatRepository } from '@application/chat/repositories/chat-repository';
 import { OpenAiService } from '@infra/open-ai/open-ai.service';
 import { ChatCompletionRequestMessage } from 'openai';
 import { OpenAiCompletionResponse } from '@infra/open-ai/models/open.ai.completion.response';

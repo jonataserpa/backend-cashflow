@@ -111,7 +111,7 @@ export class CashFlowController {
     };
     const CashFlow = await this.getByIdCashFlowUseCase.execute(params);
     return {
-      CashFlow: CashFlowViewModel.toHTTP(CashFlow),
+      cashFlow: CashFlowViewModel.toHTTP(CashFlow),
     };
   }
 
@@ -127,16 +127,18 @@ export class CashFlowController {
   @Roles(['admin', 'paid-annoucement'])
   @UseGuards(JwtGuard, RoleGuard)
   async create(@Body() body: CreateCashFlowDto) {
-    const { description, observation, type } = body;
+    const { description, observation, type, companyId, value } = body;
 
     const { cashFlow } = await this.createCashFlowUseCase.execute({
       description,
       observation,
       type,
+      companyId,
+      value,
     });
 
     return {
-      CashFlow: CashFlowViewModel.toHTTP(cashFlow),
+      cashFlow: CashFlowViewModel.toHTTP(cashFlow),
     };
   }
 
@@ -151,17 +153,19 @@ export class CashFlowController {
   @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   async update(@Param('id') id: number, @Body() body: CreateCashFlowDto) {
-    const { description, observation, type } = body;
+    const { description, observation, type, companyId, value } = body;
 
     const { cashFlow } = await this.updateCashFlowUseCase.execute({
       id,
       description,
       observation,
       type,
+      companyId,
+      value,
     });
 
     return {
-      CashFlow: CashFlowViewModel.toHTTP(cashFlow),
+      cashFlow: CashFlowViewModel.toHTTP(cashFlow),
     };
   }
 
