@@ -56,4 +56,12 @@ export class CashFlow {
   public get value(): string {
     return this.props.value;
   }
+
+  public set paymentedAt(paymentedAt: Date) {
+    this.props.paymentedAt = paymentedAt;
+  }
+
+  public get paymentedAt(): Date {
+    return this.props.paymentedAt;
+  }
 }

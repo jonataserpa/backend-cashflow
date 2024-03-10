@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { TypeStatus } from '@prisma/client';
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsDate, IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateCashFlowDto {
   @ApiProperty({
@@ -41,4 +42,13 @@ export class CreateCashFlowDto {
   @IsString()
   @IsNotEmpty()
   value: string;
+
+  @ApiProperty({
+    description: 'paymentedAt ',
+    example: 'date paymentedAt',
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsNotEmpty()
+  paymentedAt: Date;
 }

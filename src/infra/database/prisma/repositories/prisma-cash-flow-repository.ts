@@ -21,6 +21,7 @@ export class PrismaCashFlowsRepository implements CashFlowsRepository {
         type: raw.type,
         companyId: raw.companyId,
         value: raw.value,
+        paymentedAt: raw.paymentedAt,
       },
     });
   }

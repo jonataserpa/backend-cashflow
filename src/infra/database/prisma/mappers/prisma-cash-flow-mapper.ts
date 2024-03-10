@@ -9,6 +9,7 @@ export class PrismaCashFlowMapper {
       observation: cashFlow.observation,
       companyId: cashFlow.companyId,
       value: cashFlow.value,
+      paymentedAt: cashFlow.paymentedAt,
       type: cashFlow.type as TypeStatus,
     };
   }
@@ -21,6 +22,7 @@ export class PrismaCashFlowMapper {
       companyId: raw.companyId,
       value: raw.value,
       type: raw.type,
+      paymentedAt: raw.paymentedAt,
     });
   }
 }

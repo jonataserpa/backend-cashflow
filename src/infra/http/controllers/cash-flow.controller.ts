@@ -123,7 +123,8 @@ export class CashFlowController {
   @ApiBody({ type: CreateCashFlowDto })
   @Post()
   async create(@Body() body: CreateCashFlowDto) {
-    const { description, observation, type, companyId, value } = body;
+    const { description, observation, type, companyId, value, paymentedAt } =
+      body;
 
     const { cashFlow } = await this.createCashFlowUseCase.execute({
       description,
@@ -131,6 +132,7 @@ export class CashFlowController {
       type,
       companyId,
       value,
+      paymentedAt,
     });
 
     return {
@@ -148,7 +150,8 @@ export class CashFlowController {
   @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   async update(@Param('id') id: number, @Body() body: CreateCashFlowDto) {
-    const { description, observation, type, companyId, value } = body;
+    const { description, observation, type, companyId, value, paymentedAt } =
+      body;
 
     const { cashFlow } = await this.updateCashFlowUseCase.execute({
       id,
@@ -157,6 +160,7 @@ export class CashFlowController {
       type,
       companyId,
       value,
+      paymentedAt,
     });
 
     return {

@@ -9,6 +9,7 @@ export class CashFlowViewModel {
       observation: cashFlow.observation,
       description: cashFlow.description,
       value: cashFlow.value,
+      paymentedAt: cashFlow.paymentedAt,
     };
   }
 }

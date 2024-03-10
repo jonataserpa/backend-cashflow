@@ -92,6 +92,7 @@ model CashFlow {
   description String
   observation String
   value       String
+  paymentedAt DateTime
   type        TypeStatus @default(ENTRY)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt

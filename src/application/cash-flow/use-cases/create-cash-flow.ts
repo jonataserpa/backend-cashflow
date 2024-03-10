@@ -12,7 +12,15 @@ export class CreateCashFlowUseCase {
   constructor(private cashFlowRepository: CashFlowsRepository) {}
 
   async execute(request: ICashFlowProps): Promise<CashFlowResponse> {
-    const { id, description, observation, type, companyId, value } = request;
+    const {
+      id,
+      description,
+      observation,
+      type,
+      companyId,
+      value,
+      paymentedAt,
+    } = request;
 
     const cashFlow = new CashFlow({
       id,
@@ -21,6 +29,7 @@ export class CreateCashFlowUseCase {
       type,
       companyId,
       value,
+      paymentedAt,
     });
 
     await this.cashFlowRepository.create(cashFlow);
