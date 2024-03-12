@@ -24,7 +24,6 @@ export class CreateCashFlowDto {
     example: 'test',
   })
   @IsString()
-  @IsNotEmpty()
   observation: string;
 
   @ApiProperty({
