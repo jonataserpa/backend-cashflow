@@ -27,6 +27,7 @@ import {
 } from '@application/user/use-cases/remove-user';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
@@ -39,10 +40,11 @@ import { UpdateUserDto } from '../dtos/update-user-dto';
 import { Roles } from '@application/auth/role/role.decorator';
 import { JwtGuard } from '@application/auth/guard/jwt.guard';
 import { RoleGuard } from '@application/auth/guard/role.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('user')
-// @UseGuards(AuthGuard('jwt'))
-// @ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
 @ApiTags('User')
 export class UserController {
   constructor(

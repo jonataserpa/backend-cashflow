@@ -20,7 +20,7 @@ export class PrismaUsersRepository implements UsersRepository {
         data: {
           ...raw,
           password: hashSync(raw.password, 10),
-          role: 'free-annoucement',
+          role: 'free',
           address: {
             createMany: {
               data: raw.address,
