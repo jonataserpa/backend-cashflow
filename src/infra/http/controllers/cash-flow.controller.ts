@@ -202,7 +202,7 @@ export class CashFlowController {
   }
 
   @Delete(':id')
-  @Roles(['admin', 'user'])
+  //@Roles(['admin', 'user'])
   @UseGuards(JwtGuard, RoleGuard)
   @ApiOperation({ summary: 'Delete an CashFlow' })
   @ApiOkResponse({
