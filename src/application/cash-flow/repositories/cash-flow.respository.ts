@@ -20,4 +20,9 @@ export abstract class CashFlowsRepository {
   abstract findById(cashFlow: number): Promise<CashFlow | null>;
   abstract update(id: number, cashFlow: CashFlow): Promise<void>;
   abstract remove(id: number): Promise<void>;
+  abstract findTotalCashFlow(): Promise<{
+    sum: number;
+    min: number;
+    total: number;
+  }>;
 }

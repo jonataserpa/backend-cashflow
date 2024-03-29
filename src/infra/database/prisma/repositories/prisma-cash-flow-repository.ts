@@ -133,11 +133,11 @@ export class PrismaCashFlowsRepository implements CashFlowsRepository {
   }
 
   async remove(id: number) {
-    const narrative = await this.prisma.cashFlow.findUnique({
+    const cash = await this.prisma.cashFlow.findUnique({
       where: { id },
     });
 
-    if (!narrative) {
+    if (!cash) {
       throw new Error(`CashFlow does not exist`);
     }
 
@@ -147,5 +147,54 @@ export class PrismaCashFlowsRepository implements CashFlowsRepository {
       },
       where: { id },
     });
+  }
+
+  addPointBeforeTwoLastDigits(numero) {
+    // Converte o número para string, caso ainda não seja
+    const numeroComoString = numero.toString();
+    // Usa regex para encontrar os componentes da string e inserir um ponto
+    // O padrão captura qualquer coisa até os dois últimos dígitos (\d{2}) no final da string ($)
+    // e os substitui pelo grupo capturado seguido de um ponto e os dois últimos dígitos
+    const resultado = numeroComoString.replace(/(\d+)(\d{2})$/, '$1.$2');
+    return resultado;
+  }
+
+  async findTotalCashFlow() {
+    const cashFlows = await this.prisma.cashFlow.findMany({
+      select: {
+        value: true,
+        type: true,
+      },
+    });
+
+    if (!cashFlows) {
+      throw new Error(`CashFlow does not exist`);
+    }
+
+    const totalSum = cashFlows.reduce((acc, current) => {
+      if (current.type === 'ENTRY') {
+        acc += Number(
+          current.value.replace('R$ ', '').replace(',', '').replace('.', ''),
+        );
+      }
+      return acc;
+    }, 0);
+
+    const totalMin = cashFlows.reduce((acc, current) => {
+      if (current.type === 'EXIT') {
+        acc += Number(
+          current.value.replace('R$ ', '').replace(',', '').replace('.', ''),
+        );
+      }
+      return acc;
+    }, 0);
+
+    const total = totalSum - totalMin;
+
+    return {
+      sum: this.addPointBeforeTwoLastDigits(totalSum),
+      min: this.addPointBeforeTwoLastDigits(totalMin),
+      total: this.addPointBeforeTwoLastDigits(total),
+    };
   }
 }

@@ -50,6 +50,7 @@ import { GetAllCashFlowUseCase } from '@application/cash-flow/use-cases/get-all-
 import { GetByIdCashFlowUseCase } from '@application/cash-flow/use-cases/get-by-id-cash-flow';
 import { UpdateCashFlowUseCase } from '@application/cash-flow/use-cases/update-cash-flow';
 import { RemoveCashFlowUseCase } from '@application/cash-flow/use-cases/remove-cash-flow';
+import { GetTotalCashFlowUseCase } from '@application/cash-flow/use-cases/get-total-cash-flow';
 
 @Module({
   imports: [DatabaseModule, OpenAiModule],
@@ -104,6 +105,7 @@ import { RemoveCashFlowUseCase } from '@application/cash-flow/use-cases/remove-c
     GetByIdCashFlowUseCase,
     UpdateCashFlowUseCase,
     RemoveCashFlowUseCase,
+    GetTotalCashFlowUseCase,
   ],
 })
 export class HttpModule {}

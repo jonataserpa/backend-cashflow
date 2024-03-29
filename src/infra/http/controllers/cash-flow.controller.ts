@@ -39,7 +39,7 @@ import {
 } from '@application/cash-flow/use-cases/remove-cash-flow';
 import { JwtGuard } from '@application/auth/guard/jwt.guard';
 import { RoleGuard } from '@application/auth/guard/role.guard';
-import { Roles } from '@application/auth/role/role.decorator';
+import { GetTotalCashFlowUseCase } from '@application/cash-flow/use-cases/get-total-cash-flow';
 
 @Controller('cash-flow')
 @UseGuards(AuthGuard('jwt'))
@@ -52,6 +52,7 @@ export class CashFlowController {
     private getByIdCashFlowUseCase: GetByIdCashFlowUseCase,
     private updateCashFlowUseCase: UpdateCashFlowUseCase,
     private removeCashFlowUseCase: RemoveCashFlowUseCase,
+    private getTotalCashFlowUseCase: GetTotalCashFlowUseCase,
   ) {}
 
   @Get()
@@ -127,6 +128,19 @@ export class CashFlowController {
     };
 
     return this.getAllCashFlowUseCase.execute(params);
+  }
+
+  @Get('/totalCashFlows')
+  @UseGuards(JwtGuard, RoleGuard)
+  @ApiOperation({ summary: 'Get an CashFlow' })
+  @ApiOkResponse({
+    description: 'User Get successfully',
+    type: CreateCashFlowDto,
+  })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  async total() {
+    return await this.getTotalCashFlowUseCase.execute();
   }
 
   @UseGuards(JwtGuard, RoleGuard)
