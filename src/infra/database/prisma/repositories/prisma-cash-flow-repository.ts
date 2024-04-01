@@ -100,9 +100,18 @@ export class PrismaCashFlowsRepository implements CashFlowsRepository {
       });
     }
 
+    const totalCash = await this.prisma.cashFlow.findMany({
+      where: {
+        AND: {
+          id,
+          deletedAt: null,
+        },
+      },
+    });
+
     const dataCashFlows: ICashFlowPropsResponse = {
       data,
-      headers: data.length === 1 ? 1 : data.length,
+      headers: totalCash.length === 1 ? 1 : totalCash.length,
     };
     return dataCashFlows;
   }
